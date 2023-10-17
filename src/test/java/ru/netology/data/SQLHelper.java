@@ -3,8 +3,6 @@ package ru.netology.data;
 import lombok.SneakyThrows;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
-import ru.netology.data.DataHelper;
-
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,7 +13,6 @@ public class SQLHelper {
 
     private SQLHelper() {
     }
-
     private static Connection getConn() throws SQLException {
         return DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
     }
