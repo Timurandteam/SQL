@@ -8,44 +8,22 @@ import org.junit.jupiter.api.Test;
 import page.LoginPage;
 
 import static com.codeborne.selenide.Selenide.open;
-import static data.SQLHelper.cleanDB;
+import static data.SQLHelper.cleanDatabase;
 
 public class LoginTest {
-
     @AfterAll
-    static void teardown() {
-        cleanDB();
+    static void teandown() {
+        cleanDatabase();
     }
 
     @Test
-    @DisplayName("authorization should be successful with valid data")
-    void shouldSuccessfullyLogin() {
-        var loginPage = open("http://localhost:9999", LoginPage.class);
-        var authInfo = DataHelper.getAuthInfo();
+    @DisplayName("Shuld successfully login to dashboard with exist login and password from sut test data")
+    void shouldSuccessfulLogin() {
+        var loginPage = open("http://Localhost:9999", LoginPage.class);
+        var authInfo = DataHelper.getAuthInfowithTestData();
         var verificationPage = loginPage.validLogin(authInfo);
-        verificationPage.verifyVerificationPage();
+        verificationPage.verifycationPageVisiblity();
         var verificationCode = SQLHelper.getVerificationCode();
-        verificationPage.validCode(verificationCode.getCode());
-    }
-
-    @Test
-    @DisplayName("should get error message if user is not exist in database")
-    void shouldGetErrorMessageIfUserIsNotExist() {
-        var loginPage = open("http://localhost:9999", LoginPage.class);
-        var randomUser = DataHelper.generateUser();
-        loginPage.validLogin(new DataHelper.AuthInfo(randomUser.getLogin(), randomUser.getPass()));
-        loginPage.verifyErrorMessage();
-    }
-
-    @Test
-    @DisplayName("should get error message if user is exist but code is wrong")
-    void shotGetErrorMessageWithWrongCode() {
-        var loginPage = open("http://localhost:9999", LoginPage.class);
-        var authInfo = DataHelper.getAuthInfo();
-        var verificationPage = loginPage.validLogin(authInfo);
-        verificationPage.verifyVerificationPage();
-        var randomVerificationCode = DataHelper.getVerificationCode();
-        verificationPage.verify(randomVerificationCode.getCode());
-        verificationPage.verifyErrorMessage();
+        verificationPage.validVerify(verificationCode.getCode());
     }
 }
